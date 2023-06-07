@@ -7,6 +7,8 @@ from views import TestDbHandler
 
 db = connect_db()
 
+
+# The next 5 request handler classes are for test
 class basicRequestHandler(tornado.web.RequestHandler):
     def get(self):
         self.write("Hello, world!!!!!!")
