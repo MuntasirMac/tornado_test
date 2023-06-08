@@ -11,22 +11,19 @@ class TestDbHandler(RequestHandler):
         data = json.loads(self.request.body.decode("utf-8"))
         print("******* Printing Requests ******")
         print(data)
-        print(data['name'])
-        print(data['roll'])
-        print(db)
 
-        in_status = db.user_info.insert_one(data)
+        in_status = db.student.insert_one(data)
 
         payload = data
 
         if in_status:
             payload['_id'] = in_status
         
-        self.set_header('Content-Type', 'application/json')
-        self.set_status(201)
-        return self.finish(json.dumps({
-            'status': 'Okay',
-            'message': 'Test Done!',
-            'data': payload,
-            'status_code': 201,
-        }, default=json_util.default))
+            self.set_header('Content-Type', 'application/json')
+            self.set_status(201)
+            return self.finish(json.dumps({
+                'status': 'Okay',
+                'message': 'Test Done!',
+                'data': payload,
+                'status_code': 201,
+            }, default=json_util.default))
