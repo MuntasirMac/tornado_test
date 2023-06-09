@@ -27,19 +27,16 @@ class TestDbHandler(RequestHandler):
                 'status_code': 201,
             }, default=json_util.default))
 
-
-    def get(self, _id):
-        # _id = self.get_argument('id')
-        payload = db.student.find_one({"_id":ObjectID(_id)})
-        print(self.path_kwargs)
-        print(self.request)
-
+class TestGetHandler(RequestHandler):
+    def get(self):
+        payload = list(db.student.find())
+        
         if payload:
             self.set_header('Content-Type', 'application/json')
-            self.set_status(201)
+            self.set_status(200)
             return self.finish(json.dumps({
                 'status': 'Okay',
                 'message': 'Test Done!',
                 'data': payload,
-                'status_code': 201,
+                'status_code': 200,
             }, default=json_util.default))

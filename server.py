@@ -2,7 +2,7 @@ import tornado.web
 import tornado.ioloop
 from dbconnection import connect_db
 
-from views import TestDbHandler
+from views import TestDbHandler, TestGetHandler
 
 
 db = connect_db()
@@ -51,7 +51,7 @@ if __name__ == "__main__":
         (r"/resource/([0-9]+)", resourceRequestHandler),
         (r"/api", callJSON),
         (r"/test", TestDbHandler),
-        (r"/test/([\w\d]+)", TestDbHandler),
+        (r"/gettest/", TestGetHandler),
     ])
 
     app.listen(8881)
