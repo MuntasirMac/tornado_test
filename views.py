@@ -40,3 +40,20 @@ class TestGetHandler(RequestHandler):
                 'data': payload,
                 'status_code': 200,
             }, default=json_util.default))
+
+
+class GetArgHandler(RequestHandler):
+    def get(self, id):
+        print(id)
+        res = db.student.find_one({"_id": ObjectId(id)})
+        print(res)
+
+        if res:
+            return self.finish(json.dumps({
+                'status': 'Okay',
+                'message': 'Test Done!',
+                'data': res,
+                'status_code': 200,
+            }, default=json_util.default))
+
+        pass
