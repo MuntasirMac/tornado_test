@@ -44,7 +44,8 @@ class TestGetHandler(RequestHandler):
 
 class GetArgHandler(RequestHandler):
     def get(self, id):
-        print(id)
+        print(self.path_args)
+        print(self.path_kwargs)
         res = db.student.find_one({"_id": ObjectId(id)})
         print(res)
 
