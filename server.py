@@ -9,26 +9,26 @@ db = connect_db()
 
 
 # The next 5 request handler classes are for test
-class basicRequestHandler(tornado.web.RequestHandler):
+class BasicRequestHandler(tornado.web.RequestHandler):
     def get(self):
         self.write("Hello, world!!!!!!")
 
-class resourceRequestHandler(tornado.web.RequestHandler):
+class ResourceRequestHandler(tornado.web.RequestHandler):
     def get(self, id):
         self.write("Querying soemthing with id " + id)
 
-class queryStringRequestHandler(tornado.web.RequestHandler):
+class QueryStringRequestHandler(tornado.web.RequestHandler):
     def get(self):
         n = int(self.get_argument("n"))
         r = "odd" if n % 2 else "even"
         
         self.write("the number " + str(n) + " is " + r)
 
-class staticRequestHandler(tornado.web.RequestHandler):
+class StaticRequestHandler(tornado.web.RequestHandler):
     def get(self):
         self.render("index.html")
 
-class callJSON(tornado.web.RequestHandler):
+class CallJSON(tornado.web.RequestHandler):
 	def get(self):
 		response = {
 			"agent" : "Killjoy",
@@ -45,11 +45,11 @@ class callJSON(tornado.web.RequestHandler):
 
 if __name__ == "__main__":
     app = tornado.web.Application([
-        (r"/", basicRequestHandler),
-        (r"/html", staticRequestHandler),
-        (r"/isEven", queryStringRequestHandler),
-        (r"/resource/([0-9]+)", resourceRequestHandler),
-        (r"/api", callJSON),
+        (r"/", BasicRequestHandler),
+        (r"/html", StaticRequestHandler),
+        (r"/isEven", QueryStringRequestHandler),
+        (r"/resource/([0-9]+)", ResourceRequestHandler),
+        (r"/api", CallJSON),
         (r"/test", TestDbHandler),
         (r"/gettest/", TestGetHandler),
         (r"/getarg/([^/]+)", GetArgHandler),
