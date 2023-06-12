@@ -2,8 +2,12 @@ import tornado.web
 import tornado.ioloop
 from dbconnection import connect_db
 
-from views import TestDbHandler, TestGetHandler, GetArgHandler
-
+from views import (TestDbHandler, 
+                    TestGetHandler, 
+                    GetArgHandler, 
+                    GetStudentByKwargs, 
+                    DeleteById
+                    )
 
 db = connect_db()
 
@@ -53,6 +57,8 @@ if __name__ == "__main__":
         (r"/test", TestDbHandler),
         (r"/gettest/", TestGetHandler),
         (r"/getarg/([^/]+)", GetArgHandler),
+        (r"/delete/([^/]+)", DeleteById),
+        (r"/getkwarg/", GetStudentByKwargs),
     ])
 
     app.listen(8881)

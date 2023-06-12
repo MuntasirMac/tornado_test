@@ -50,11 +50,47 @@ class GetArgHandler(RequestHandler):
         print(res)
 
         if res:
+            self.set_header('Content-Type', 'application/json')
+            self.set_status(200)
             return self.finish(json.dumps({
                 'status': 'Okay',
-                'message': 'Test Done!',
+                'message': 'Test With Args Done!',
                 'data': res,
                 'status_code': 200,
             }, default=json_util.default))
 
-        pass
+
+class GetStudentByKwargs(RequestHandler):
+    def get(self):
+        holding = self.get_argument('holding')
+        city = self.get_argument('city')
+        query = {"address.holding": holding, "address.city": city}
+        res = db.student.find_one(query)
+        print(res)
+
+        if res:
+            self.set_header('Content-Type', 'application/json')
+            self.set_status(200)
+            return self.finish(json.dumps({
+                'status': 'Okay',
+                'message': 'Test With Kwargs Done!',
+                'data': res,
+                'status_code': 200,
+            }, default=json_util.default))
+
+
+class DeleteById(RequestHandler):
+    def delete(self, id):
+        print(self.path_args)
+        query = db.student.delete_one({"_id": ObjectId(id)})
+        print(query)
+
+        if query:
+            self.set_header('Content-Type', 'application/json')
+            self.set_status(200)
+            return self.finish(json.dumps({
+                'status': 'Deleted',
+                'message': 'Test With Kwargs Done!',
+                'data': 'No Content',
+                'status_code': 200,
+            }, default=json_util.default))
