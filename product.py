@@ -1,6 +1,6 @@
 import json
-from bson import json_util, ObjectId
 import pymongo
+from bson import json_util, ObjectId
 from dbconnection import connect_db
 from tornado.web import RequestHandler
 
@@ -25,4 +25,24 @@ class ProductListHandler(RequestHandler):
                 'message': 'Test Done!',
                 'data': payload,
                 'status_code': 201,
+            }, default=json_util.default))
+
+# worked with mock data
+
+class GetProductByPrice(RequestHandler):
+    def get(self):
+        price = self.get_argument('price')
+        query = {"product_price": {"$gt": price}}
+        res = list(db.product.find(query))
+
+        print(res)
+
+        if res:
+            self.set_header('Content-Type', 'application/json')
+            self.set_status(200)
+            return self.finish(json.dumps({
+                'status': 'Okay',
+                'message': 'Test With Kwargs Done!',
+                'data': res,
+                'status_code': 200,
             }, default=json_util.default))
