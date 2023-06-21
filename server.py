@@ -8,6 +8,7 @@ from views import (TestDbHandler,
                     GetStudentByKwargs, 
                     DeleteById
                     )
+from product import ProductListHandler
 
 db = connect_db()
 
@@ -59,6 +60,7 @@ if __name__ == "__main__":
         (r"/getarg/([^/]+)", GetArgHandler),
         (r"/delete/([^/]+)", DeleteById),
         (r"/getkwarg/", GetStudentByKwargs),
+        (r"/insert-multiple-product/", ProductListHandler)
     ])
 
     app.listen(8881)
