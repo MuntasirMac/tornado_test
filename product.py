@@ -31,11 +31,10 @@ class ProductListHandler(RequestHandler):
 
 class GetProductByPrice(RequestHandler):
     def get(self):
-        price = self.get_argument('price')
-        query = {"product_price": {"$gt": price}}
-        res = list(db.product.find(query))
-
-        print(res)
+        price = float(self.get_argument('price'))
+        
+        res = db.product.find({"product_price": {"$gt": price}})
+        res = list(res)
 
         if res:
             self.set_header('Content-Type', 'application/json')
