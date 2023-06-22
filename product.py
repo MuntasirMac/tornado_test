@@ -45,3 +45,25 @@ class GetProductByPrice(RequestHandler):
                 'data': res,
                 'status_code': 200,
             }, default=json_util.default))
+
+
+class GetProductBySizeAndColor(RequestHandler):
+    def get(self):
+        size = self.get_argument('size')
+        color = self.get_argument('color')
+
+        query = {'product_size': size, 'product_color': color}
+
+        res = list(db.product.find(query))
+
+        print(len(res))
+
+        if res:
+            self.set_header('Content-Type', 'application/json')
+            self.set_status(200)
+            return self.finish(json.dumps({
+                'status': 'Okay',
+                'message': 'Your Desired Products Are Here!',
+                'data': res,
+                'status_code': 200,
+            }, default=json_util.default))

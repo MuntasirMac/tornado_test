@@ -10,7 +10,8 @@ from views import (TestDbHandler,
                     )
 from product import (
     ProductListHandler,
-    GetProductByPrice
+    GetProductByPrice,
+    GetProductBySizeAndColor
     )
 
 db = connect_db()
@@ -65,7 +66,8 @@ if __name__ == "__main__":
         (r"/getkwarg/", GetStudentByKwargs),
         (r"/insert-multiple-product/", ProductListHandler),
         (r"/get-by-price/", GetProductByPrice),
-    ])
+        (r"/get-by-size-and-color/", GetProductBySizeAndColor),
+    ], debug=True)
 
     app.listen(8881)
     print("I'm listening on port 8881")
