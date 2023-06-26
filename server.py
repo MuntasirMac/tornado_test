@@ -13,6 +13,9 @@ from product import (
     GetProductByPrice,
     GetProductBySizeAndColor
     )
+from order import (
+        CreateOrderApi
+    )
 
 db = connect_db()
 
@@ -67,6 +70,7 @@ if __name__ == "__main__":
         (r"/insert-multiple-product/", ProductListHandler),
         (r"/get-by-price/", GetProductByPrice),
         (r"/get-by-size-and-color/", GetProductBySizeAndColor),
+        (r"/create-order", CreateOrderApi),
     ], debug=True)
 
     app.listen(8881)
