@@ -16,6 +16,7 @@ from product import (
 from order import (
         CreateOrderApi
     )
+from image import uploadImgHandler
 
 db = connect_db()
 
@@ -57,7 +58,7 @@ class CallJSON(tornado.web.RequestHandler):
 
 if __name__ == "__main__":
     app = tornado.web.Application([
-        (r"/", BasicRequestHandler),
+        # (r"/", BasicRequestHandler),
         (r"/html", StaticRequestHandler),
         (r"/isEven", QueryStringRequestHandler),
         (r"/resource/([0-9]+)", ResourceRequestHandler),
@@ -71,6 +72,8 @@ if __name__ == "__main__":
         (r"/get-by-price/", GetProductByPrice),
         (r"/get-by-size-and-color/", GetProductBySizeAndColor),
         (r"/create-order", CreateOrderApi),
+        (r"/", uploadImgHandler),
+        (r"/img/(.*)", tornado.web.StaticFileHandler, {'path': 'upload'})
     ], debug=True)
 
     app.listen(8881)
