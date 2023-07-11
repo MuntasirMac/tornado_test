@@ -67,3 +67,6 @@ class GetProductBySizeAndColor(RequestHandler):
                 'data': res,
                 'status_code': 200,
             }, default=json_util.default))
+
+# class UpdateProduct(RequestHandler):
+#     def put(self, product_id):

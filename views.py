@@ -79,6 +79,28 @@ class GetStudentByKwargs(RequestHandler):
             }, default=json_util.default))
 
 
+class UpdateStudent(RequestHandler):
+    def put(self, id):
+        data = json.loads(self.request.body.decode("utf-8"))
+        dept = data['dept']
+
+        payload = {
+            "dept": dept
+        }
+
+        res = db.student.find_one_and_update({'_id':ObjectId(id)}, {'$set': payload})
+
+        if res:
+            self.set_header('Content-Type', 'application/json')
+            self.set_status(200)
+            return self.finish(json.dumps({
+                'status': 'Okay',
+                'message': 'Test With Kwargs Done!',
+                'data': res,
+                'status_code': 200,
+            }, default=json_util.default))
+
+
 class DeleteById(RequestHandler):
     def delete(self, id):
         print(self.path_args)

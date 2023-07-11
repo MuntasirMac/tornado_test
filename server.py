@@ -6,7 +6,8 @@ from views import (TestDbHandler,
                     TestGetHandler, 
                     GetArgHandler, 
                     GetStudentByKwargs, 
-                    DeleteById
+                    DeleteById,
+                    UpdateStudent
                     )
 from product import (
     ProductListHandler,
@@ -67,6 +68,7 @@ if __name__ == "__main__":
         (r"/gettest/", TestGetHandler),
         (r"/getarg/([^/]+)", GetArgHandler),
         (r"/delete/([^/]+)", DeleteById),
+        (r"/update-student/([^/]+)", UpdateStudent),
         (r"/getkwarg/", GetStudentByKwargs),
         (r"/insert-multiple-product/", ProductListHandler),
         (r"/get-by-price/", GetProductByPrice),
