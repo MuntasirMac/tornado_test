@@ -33,8 +33,10 @@ class GetProductByPrice(RequestHandler):
     def get(self):
         price = float(self.get_argument('price'))
         
-        res = db.product.find({"product_price": {"$gt": price}})
+        res = db.product.find({"product_price": {"$gt": price}}).sort('product_price', -1)
         res = list(res)
+        for i in res:
+            print(i['_id'], i['product_price'])
 
         if res:
             self.set_header('Content-Type', 'application/json')

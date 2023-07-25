@@ -29,9 +29,16 @@ class TestDbHandler(RequestHandler):
 
 class TestGetHandler(RequestHandler):
     def get(self):
-        payload = list(db.student.find())
+        payload = db.order.find().sort('created_at',-1)
+        # payload = list(payload)
+        # for i in payload:
+        # #     print("net_price ", i['net_price'])
+        # #     i['net_price'] += 1000
+        #     print(i['net_price'])
+        #     status = db.order.find_one_and_update({'_id': i['_id']}, {"$set": {'net_price': i['net_price']}})
         
         if payload:
+            payload = list(payload)
             self.set_header('Content-Type', 'application/json')
             self.set_status(200)
             return self.finish(json.dumps({
