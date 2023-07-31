@@ -14,6 +14,9 @@ from product import (
     GetProductByPrice,
     GetProductBySizeAndColor
     )
+from org import CreateOrgApi
+from entity import CreateEntityApi
+from wallet import CreateWalletApi, AddMoneyToWalletApi
 from order import (
         CreateOrderApi
     )
@@ -74,6 +77,10 @@ if __name__ == "__main__":
         (r"/get-by-price/", GetProductByPrice),
         (r"/get-by-size-and-color/", GetProductBySizeAndColor),
         (r"/create-order", CreateOrderApi),
+        (r"/create-org", CreateOrgApi),
+        (r"/create-entity", CreateEntityApi),
+        (r"/create-wallet", CreateWalletApi),
+        (r"/add-money-to-wallet/([^/]+)", AddMoneyToWalletApi),
         (r"/", uploadImgHandler),
         (r"/img/(.*)", tornado.web.StaticFileHandler, {'path': 'upload'})
     ], debug=True)

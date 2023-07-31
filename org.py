@@ -7,21 +7,21 @@ from tornado.web import RequestHandler
 
 now = datetime.now()
 
-class CreateOrderApi(RequestHandler):
+class CreateOrgApi(RequestHandler):
 	def post(self):
 		data = json.loads(self.request.body.decode("utf-8"))
-		
 
-		status = db.order.insert_one(data)
+		status = db.org.insert_many(data)
 
 		if status:
-			data["created_on"]: now
+			payload["_id"] = status.inserted_id
+			print(payload['_id'])
 			self.set_header('Content-Type', 'application/json')
 			self.set_status(201)
 			return self.finish(json.dumps({
 			    'status': 'created',
 			    'message': 'Order Created!',
-			    'data': data,
+			    'data': payload,
 			    'status_code': 201,
 			}, default=json_util.default))
 
