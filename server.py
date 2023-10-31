@@ -21,6 +21,7 @@ from order import (
         CreateOrderApi
     )
 from image import uploadImgHandler
+from enc import CreateEncryptionApi, GetEncryptedKeys
 
 db = connect_db()
 
@@ -80,6 +81,8 @@ if __name__ == "__main__":
         (r"/create-org", CreateOrgApi),
         (r"/create-entity", CreateEntityApi),
         (r"/create-wallet", CreateWalletApi),
+        (r"/create-encryption", CreateEncryptionApi),
+        (r"/get-encrypted-keys/([^/]+)", GetEncryptedKeys),
         (r"/add-money-to-wallet/([^/]+)", AddMoneyToWalletApi),
         (r"/", uploadImgHandler),
         (r"/img/(.*)", tornado.web.StaticFileHandler, {'path': 'upload'})
