@@ -10,6 +10,8 @@ class TestDbHandler(RequestHandler):
     def post(self):
         data = json.loads(self.request.body.decode("utf-8"))
         print("******* Printing Requests ******")
+        print(self.request)
+        print(self.request.body)
 
         in_status = db.student.insert_one(data)
 

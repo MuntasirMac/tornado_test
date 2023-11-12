@@ -15,6 +15,7 @@ from product import (
     GetProductBySizeAndColor
     )
 from org import CreateOrgApi
+from gauth import GAuth
 from entity import CreateEntityApi
 from wallet import CreateWalletApi, AddMoneyToWalletApi
 from order import (
@@ -69,6 +70,7 @@ if __name__ == "__main__":
         (r"/resource/([0-9]+)", ResourceRequestHandler),
         (r"/api", CallJSON),
         (r"/test", TestDbHandler),
+        (r"/gauth", GAuth),
         (r"/gettest/", TestGetHandler),
         (r"/getarg/([^/]+)", GetArgHandler),
         (r"/delete/([^/]+)", DeleteById),

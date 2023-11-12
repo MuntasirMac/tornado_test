@@ -18,7 +18,7 @@ class CreateEncryptionApi(RequestHandler):
 
 		key = Fernet.generate_key()
 		fernet = Fernet(key)
-		print(key)
+		# print(key)
 
 		if api_key:
 			encrypted_api_key = fernet.encrypt(api_key.encode('utf-8'))
@@ -34,13 +34,13 @@ class CreateEncryptionApi(RequestHandler):
 		decrypted_api_key = fernet.decrypt(encrypted_api_key).decode('utf-8')
 		decrypted_api_secret = fernet.decrypt(encrypted_api_secret).decode('utf-8')
 		
-		print("encrypted msg:", (encrypted_api_key))
-			
+		# print("encrypted msg:", (encrypted_api_key))
 		status = db.encryptions.insert_one(encrypted_payload)
+		print(encrypted_payload)
+		print(type(status))
 
 		if status:
-			data['_id'] = status
-			data["created_on"]: now
+			encrypted_payload['_id'] = status.inserted_id
 			self.set_header('Content-Type', 'application/json')
 			self.set_status(201)
 			return self.finish(json.dumps({
