@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: 80mm 800mm; /* Set the size of the paper for the POS receipt */
+      margin: 0; /* Remove default margin */
+    }
+
+    body {
+      font-family: Arial, sans-serif; /* Choose a suitable font for the receipt
+      /* font-family: 'Lato', sans-serif; */
+      font-weight: 10;
+      margin: 0; /* Remove default margin */
+      padding: 10px; /* Add padding to provide some spacing */
+    }
+
+    .header p {
+      text-align: center; /* Center the heading */
+      margin: 0 0 10px; /* Add some margin below the heading */
+      font-size: 15px;
+      /*font-family: 'Times New Roman', Times, serif; */
+      font-family: 'Bebas Neue', sans-serif;
+      margin-top: 5px;
+      font-weight: 10px;
+    }
+    .sub-header p {
+      text-align: center; /* Center the heading */
+      margin: 0 0 30px; /* Add some margin below the heading */
+      margin-top: -10px;
+      margin-bottom: 15px;
+      font-size: 13px;
+    }
+
+    .footer p {
+      text-align: center; /* Center the heading */
+      margin: 0 0 10px; /* Add some margin below the heading */
+      font-size: 12px;
+      /* font-family: 'Times New Roman', Times, serif; */
+      /* font-family: 'Bebas Neue', sans-serif; */
+      margin-top: -5px;
+      /* font-weight: 0px; */
+    }
+    .sub-footer p {
+      text-align: center; /* Center the heading */
+      margin: 0 0 30px; /* Add some margin below the heading */
+      margin-top: 10px;
+      margin-bottom: 5px;
+      font-size: 10px;
+    }
+
+    .receipt-info p,
+    .invoice-info p {
+      margin: 5px 0; /* Reduce margin between information sections */
+      font-size: 12px;
+    }
+    .note p {
+      margin: 30px 0; /* Reduce margin between information sections */
+      /* margin-top: 10px; */
+      font-size: 12px;
+    }
+
+    .header-row::after,
+    .item-row::after {
+      content: "";
+      display: table;
+      clear: both;
+      font-size: 12px;
+    }
+
+    .header-row > div {
+      float: left;
+      width: 50%; /* Adjust the width as needed */
+      font-size: 12px;
+    }
+
+    .header-row > div:nth-child(2) {
+      width: 30%; /* Adjust the width as needed */
+      font-size: 12px;
+    }
+
+    .item-name {
+      float: left;
+      width: 60%; /* Adjust the width as needed */
+      font-size: 12px;
+    }
+
+    .item-info {
+      clear: both;
+    }
+
+    .item-info > div {
+      float: left;
+      width: 50%; /* Adjust the width as needed */
+      font-size: 12px;
+    }
+
+    .item-info > div:nth-child(2) {
+      width: 50%; /* Adjust the width as needed */
+      font-size: 12px;
+    }
+
+    .item-quantity,
+    .item-price {
+      float: left;
+      width: 20%; /* Adjust the width as needed */
+      font-size: 12px;
+    }
+
+    .total-row {
+      margin-top: 10px; /* Add margin at the top of the total row */
+      font-size: 12px;
+    }
+
+    .subtotal-row,
+    .vat-row,
+    .discount-row,
+    .due-row,
+    .paid-row {
+      clear: both;
+    }
+
+    .subtotal-row > div,
+    .vat-row > div,
+    .discount-row > div,
+    .due-row > div,
+    .paid-row > div {
+      float: left;
+      width: 50%; /* Adjust the width as needed */
+      font-size: 12px;
+    }
+    .company-container {
+      position: relative;
+      text-align: center;
+      /* Additional styling for the container if needed */
+    }
+
+    .sl > div{
+        width: 40%;
+        float: left;
+    }
+    
+    .address {
+      position: absolute;
+      top: calc(100% + 5px); /* Adjust the gap as needed */
+      left: 50%;
+      transform: translateX(-50%);
+      margin-top: 1px; /* Adjust the gap as needed */
+      /* Additional styling for the address */
+    }
+   
+  </style>
+</head>
+<body>
+  <div class="header">
+    <p><b>{{entity['name']}}</b></p>
+  </div>
+
+  <div class="sub-header">
+    <p>{{entity['address']}}</p>
+  </div>
+    <div class="receipt-info">
+        <p>Contact no: {{contact_no}}</p>
+        <p>POS operator name: {{pos_created_by}}</p>         
+        <p>Date: {{today}}</p>                              
+        <p>Invoice no: {{invoice_no}}</p>        
+    </div>
+  <div class="header-row">
+      <div class="sl">
+        <div>Sl No.</div>
+        <div>Order No.</div>
+      </div>
+      <div>Bill Amount</div>
+    </div>
+    ---------------------------------------------------
+    <br>
+    {% for order in invoice_order_list %}
+    <div class="item-row">
+      <div class="item-info">
+        <div class="sl">
+          <div>{{loop.index}}#</div>
+          <div>{{order['order_number']}}</div>
+        </div>
+        <div>{{order['bill_amount']}}</div>
+      </div>
+    </div>
+    {% endfor %}
+    <br>
+    ---------------------------------------------------
+    <div class="subtotal-row">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div>Total Bill:</div>
+        <div>{{'%0.2f'| format(net_bill_amount|float)}}</div>
+    </div>
+
+    <div class="vat-row">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div>Previous Due:</div>
+        <div>{{'%0.2f'| format(previous_due|float)}}</div>
+    </div>
+
+    <div class="vat-row">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div>Received Amount:</div>
+        <div>{{'%0.2f'| format(total_received_now|float)}}</div>
+    </div>
+
+    <div class="discount-row">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div>-Discount:</div>
+        <div>{{'%0.2f'| format(total_discount|float)}}</div>
+    </div>
+
+    <div class="discount-row">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div>Current Due:</div>
+        <div>{{'%0.2f'| format(current_due|float)}}</div>
+    </div>
+        ---------------------------------------------------
+    <br>
+    <div class="note">
+        <p><b>Note:</b> Sold Item can't be refunded but can be exchanged only within 72 hours
+        with relevant receipt. Thanks For Shopping With Us.
+        </p>
+    </div>
+
+    <div class="sub-footer">
+        <p>Powered by</p>
+    </div>
+    <div class="footer">
+        <p>Conveyance App</p>
+    </div>
+</body>
+</html>
