@@ -7,7 +7,9 @@ from views import (TestDbHandler,
                     GetArgHandler, 
                     GetStudentByKwargs, 
                     DeleteById,
-                    UpdateStudent
+                    UpdateStudent,
+                    WalletCollectionApi,
+                    WalletDueCollectionListApi
                     )
 from product import (
     ProductListHandler,
@@ -86,6 +88,8 @@ if __name__ == "__main__":
         (r"/create-encryption", CreateEncryptionApi),
         (r"/get-encrypted-keys/([^/]+)", GetEncryptedKeys),
         (r"/add-money-to-wallet/([^/]+)", AddMoneyToWalletApi),
+        (r"/wallet-collection", WalletCollectionApi),
+        (r"/due-collection-list", WalletDueCollectionListApi),
         (r"/", uploadImgHandler),
         (r"/img/(.*)", tornado.web.StaticFileHandler, {'path': 'upload'})
     ], debug=True)
