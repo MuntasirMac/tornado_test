@@ -16,6 +16,10 @@ from product import (
     GetProductByPrice,
     GetProductBySizeAndColor
     )
+from automations import (
+    PlaceAutomationApi,
+    BulkPlaceInsertApi
+    )
 from org import CreateOrgApi
 from gauth import GAuth
 from entity import CreateEntityApi
@@ -90,6 +94,8 @@ if __name__ == "__main__":
         (r"/add-money-to-wallet/([^/]+)", AddMoneyToWalletApi),
         (r"/wallet-collection", WalletCollectionApi),
         (r"/due-collection-list", WalletDueCollectionListApi),
+        (r"/automate-places", PlaceAutomationApi),
+        (r"/insert-bulk-places", BulkPlaceInsertApi),
         (r"/", uploadImgHandler),
         (r"/img/(.*)", tornado.web.StaticFileHandler, {'path': 'upload'})
     ], debug=True)
