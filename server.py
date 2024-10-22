@@ -18,7 +18,9 @@ from product import (
     )
 from automations import (
     PlaceAutomationApi,
-    BulkPlaceInsertApi
+    BulkPlaceInsertApi,
+    ProductLLMApi,
+    BulkProductInsertApi
     )
 from org import CreateOrgApi
 from gauth import GAuth
@@ -96,6 +98,8 @@ if __name__ == "__main__":
         (r"/due-collection-list", WalletDueCollectionListApi),
         (r"/automate-places", PlaceAutomationApi),
         (r"/insert-bulk-places", BulkPlaceInsertApi),
+        (r"/automate-product", ProductLLMApi),
+        (r"/insert-bulk-products", BulkProductInsertApi),
         (r"/", uploadImgHandler),
         (r"/img/(.*)", tornado.web.StaticFileHandler, {'path': 'upload'})
     ], debug=True)
