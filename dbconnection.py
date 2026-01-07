@@ -3,9 +3,13 @@ from pymongo import MongoClient
 # from motor.motor_tornado import MotorClient
 
 
-def connect_db():
+def connect_db(name=None):
     client = MongoClient('mongodb://localhost:27017')
-    db = client.get_database('tor_test')
+    if not name:
+        # db = client.get_database('tor_test')
+        db = client.get_database('chbxdb')
+    else:
+        db = client.get_database(name)
 
     return db
 

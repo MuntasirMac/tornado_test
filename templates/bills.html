@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-16">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Purchase Bill Report</title>
+    <style>
+        @import url('https://fonts.maateen.me/siyam-rupali/font.css');
+        body {
+            font-family: 'SiyamRupali', sans-serif;
+            font-size: 10px;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .header h1 {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .header p {
+            font-size: 12px;
+            margin: 0;
+        }
+        .info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .info-left, .info-right {
+            width: 48%;
+            font-size: 10px;
+        }
+        .info-left p, .info-right p {
+            margin: 5px 5px;
+        }
+        .info-left {
+            text-align: left;
+        }
+        .info-right {
+            text-align: right;
+        }
+        .table-container {
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10px;
+            line-height: 12px;
+            border: 1px solid black;
+        }
+        
+        th, td {
+            border: 1px solid black;
+            padding: 5px;
+            text-align: left;
+            vertical-align: top;
+        }
+        
+        th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+        }
+        
+        thead {
+            display: table-header-group;
+        }
+        tbody {
+            display: table-row-group;
+        }
+        tfoot {
+            display: table-footer-group;
+        }
+
+        tr {
+            page-break-inside: avoid;
+        }
+        
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: right;
+            padding-bottom: 10px;
+            background: white;
+        }
+        .client-logo {
+            width: 80px;
+            height: auto;
+        }
+        .signatures {
+            margin-top: 60px;
+            width: 100%;
+            font-size: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .signatures div {
+            text-align: center;
+            margin: 0 10px;
+        }
+        .signatures div p {
+            margin: 40px 0 0;
+            border-top: 1px solid black;
+        }
+        @page {
+            margin: 20mm;
+            size: A4;
+        }
+        @media print {
+            .footer {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+            }
+        }
+        .bill-images {
+            margin-top: 40px;
+            margin-bottom: 20px;
+            page-break-inside: avoid;
+        }
+
+        .bill-images h3 {
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            border-bottom: 1px solid black;
+            padding-bottom: 5px;
+        }
+
+        .images-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px;
+        }
+
+        .image-item {
+            text-align: center;
+            margin-bottom: 20px;
+            page-break-inside: avoid;
+        }
+
+        .image-item img {
+            max-width: 200px;
+            max-height: 150px;
+            border: 1px solid #ccc;
+            padding: 5px;
+        }
+
+        .image-caption {
+            font-size: 10px;
+            margin-top: 8px;
+            font-weight: bold;
+        }
+
+        .no-images {
+            text-align: center;
+            font-style: italic;
+            color: #666;
+        }
+
+        @media print {
+            .bill-images {
+                page-break-inside: avoid;
+            }
+            .image-item {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>{{org_name}}</h1>
+        <p>{{org_address}}</p>
+        <h3>{{org_mobile}}</h3>
+    </div>
+    {%for bill in bills%}
+        <div class="info">
+            <div class="info-left">
+                <p>Created By: {{bill['created_by_name']}}</p>
+                {%if bill['approved_by_name']%}
+                    <p>Approved By: {{bill['approved_by_name']}}</p>
+                {%else%}
+                    <p>Approved By: NA</p>
+                {%endif%}
+                <p>Bill Type: {{bill_type}}</p>
+                <p>Created At: {{bill['created_on']}}</p> 
+                <p>Generated At: {{now}}</p>
+                <p>Total Bill amount: {{bill['total_price']}}</p>
+                {% if 'details' in bill and bill['details']%}
+                    <p>Bill Purpose: {{bill['details']}}</p>
+                {%else%}
+                    <p>Bill Purpose: NA</p>
+                {%endif%}
+                {%if 'created_for' in bill and bill['created_for']%}
+                    <p>Bill For: {{bill['created_for']['name']}}</p>
+                {%else%}
+                    <p>Bill For: {{bill['bill_for']}}</p>
+                {%endif%}
+                {%if 'asset_name' in bill and bill['asset_name']%}
+                    <p>Asset Name: {{bill['asset_name']}}</p>
+                {%endif%}
+
+                {%if 'created_for' in bill and bill['created_for']%}
+                    <p>Bill For (Mobile): {{bill['created_for']['mobile']}}</p>
+                {%else%}
+                    <p>Bill For (Mobile): {{bill['bill_for_mobile']}}</p>
+                {%endif%}
+                {%if 'billing_time' in bill and bill['billing_time']%}
+                    <p>Bill Date: {{bill['billing_time']}}</p>
+                {%else%}
+                    <p>Bill Date: NA</p>
+                {%endif%}
+            </div>
+            <div class="info-right">
+                <p></p>
+                <p></p>
+                <p></p>
+            </div>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <!-- <th>Bill For</th>
+                        <th>Bill For (Mobile)</th> -->
+                        <th>Unit</th>
+                        <th>Unit Price</th>
+                        <th>Quantity</th>
+                        <th>Billing Amount ({{currency}})</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for item in bill['items']%}
+                        <tr>
+                            <td>{{item['item']}}</td>
+                            <!-- {%if 'created_for' in bill and bill['created_for']%}
+                                <td>{{bill['created_for']['name']}}</td>
+                            {%else%}
+                                <td>{{bill['bill_for']}}</td>
+                            {%endif%}
+                            {%if 'created_for' in bill and bill['created_for']%}
+                                <td>{{bill['created_for']['mobile']}}</td>
+                            {%else%}
+                                <td>{{bill['bill_for_mobile']}}</td>
+                            {%endif%} -->
+                            <td>{{item['unit']}}</td>
+                            <td>{{item['unit_price']}}</td>
+                            <td>{{item['qty']}}</td>
+                            <td style="text-align: center;">{{item['price']}}</td>
+                        </tr>
+                    {%endfor%}
+                    <tr>
+                        <td colspan="4" style="text-align: right;">Total:</td>
+                        <td style="text-align: center;">{{bill['total_price']}} ({{currency}})</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    {%endfor%}
+    <div class="signatures">
+        <div><p>Authorized By</p></div>
+        <div><p>Approved By</p></div>
+        <div><p>Received By</p></div>
+    </div>
+
+    <!-- NEW BILL IMAGES SECTION -->
+    <div class="bill-images">
+        <h3>Bill Images/Receipts</h3>
+        
+        {% set ns = namespace(has_images=false) %}
+        {% for bill in bills %}
+            {% if bill.bill_image_path_1 or bill.bill_image_path_2 %}
+                {% set ns.has_images = true %}
+            {% endif %}
+        {% endfor %}
+        
+        {% if ns.has_images %}
+            <div class="images-grid">
+                {% for bill in bills %}
+                    {% if bill.bill_image_path_1 %}
+                        <div class="image-item">
+                            <img src="https://api.conveyance.app/v1/{{ bill['bill_image_path_1'] }}"
+                                 alt="Bill {{ bill.get('bill_no', 'Unknown') }} - Image 1"
+                                 onerror="this.parentNode.style.display='none'">
+                            <div class="image-caption">
+                                Bill No: {{ bill.get('bill_no', 'Unknown') }} - Image 1
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if bill.bill_image_path_2 %}
+                        <div class="image-item">
+                            <img src="https://api.conveyance.app/v1/{{ bill['bill_image_path_2'] }}"
+                                 alt="Bill {{ bill.get('bill_no', 'Unknown') }} - Image 2"
+                                 onerror="this.parentNode.style.display='none'">
+                            <div class="image-caption">
+                                Bill No: {{ bill.get('bill_no', 'Unknown') }} - Image 2
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-images">No bill images available</div>
+        {% endif %}
+    </div>
+
+    <div class="footer">
+        <p>Powered by</p>
+        <img class="client-logo" src="https://www.checbox.com/wp-content/uploads/2023/02/conveyance-logo-wo-tm.png">
+    </div>
+</body>
+</html>

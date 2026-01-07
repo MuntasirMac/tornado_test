@@ -20,8 +20,11 @@ from automations import (
     PlaceAutomationApi,
     BulkPlaceInsertApi,
     ProductLLMApi,
-    BulkProductInsertApi
+    BulkProductInsertApi,
+    UserLLMAPI
     )
+from cnvc import ConveyanceBillPDF, ConveyanceBillReportPdf, PurchaseBillReportPdf, ExtendedOrderSummary
+from radius import RadiusSettingApi, AttendanceLeaveListApi
 from org import CreateOrgApi
 from gauth import GAuth
 from entity import CreateEntityApi
@@ -100,6 +103,13 @@ if __name__ == "__main__":
         (r"/insert-bulk-places", BulkPlaceInsertApi),
         (r"/automate-product", ProductLLMApi),
         (r"/insert-bulk-products", BulkProductInsertApi),
+        (r"/insert-bulk-user", UserLLMAPI),
+        (r"/conveyance_bill_pdf", ConveyanceBillPDF),
+        (r"/conveyance-bill-pdf", ConveyanceBillReportPdf),
+        (r"/purchase-bill-pdf", PurchaseBillReportPdf),
+        (r"/extended-order-summary", ExtendedOrderSummary),
+        (r"/radius/([^/]+)", RadiusSettingApi),
+        (r"/leaves", AttendanceLeaveListApi),
         (r"/", uploadImgHandler),
         (r"/img/(.*)", tornado.web.StaticFileHandler, {'path': 'upload'})
     ], debug=True)
