@@ -1,10 +1,12 @@
 from pymongo import MongoClient
 # from motor.motor_asyncio import AsyncIOMotorClient
 # from motor.motor_tornado import MotorClient
+from decouple import config
 
 
 def connect_db(name=None):
-    client = MongoClient('mongodb://localhost:27017')
+    # client = MongoClient('mongodb://localhost:27017')
+    client = MongoClient(config('mongo_uri'))
     if not name:
         # db = client.get_database('tor_test')
         db = client.get_database('chbxdb')
